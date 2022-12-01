@@ -1,0 +1,10 @@
+/**
+!/.gitignore
+
+/**/
+!/bin/
+!/bin/release/
+/bin/release/**
+!/bin/release/*.txt
+!/source/
+!/source/**

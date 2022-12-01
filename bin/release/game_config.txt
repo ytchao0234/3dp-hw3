@@ -1,0 +1,2 @@
+GAME_DATA_FILE			game_data_v01.txt
+#GAME_DATA_FILE			game_data_v02.txt
