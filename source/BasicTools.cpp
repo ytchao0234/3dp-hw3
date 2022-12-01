@@ -17,7 +17,7 @@ namespace {
 using namespace Ogre;
 
 //
-// Call basicTool_Init to set the objects 
+// Call basicTool_Init to set the objects
 // (tray manager, scene manager, and camera)
 // that will be used by this set of functions.
 //
@@ -40,7 +40,7 @@ void basicTool_Init(
 // For example,
 // prefix = "myObjects_"
 // index = 12
-// 
+//
 // out_name = "myObjects_12"
 //
 void basicTool_genNameUsingIndex(
@@ -48,7 +48,7 @@ void basicTool_genNameUsingIndex(
 	, int index
 	, Ogre::String& out_name)
 {
-	out_name = prefix 
+	out_name = prefix
 		+ Ogre::StringConverter::toString(static_cast<int>(index));
 }
 
@@ -156,7 +156,7 @@ bool basicTool_projectScenePointOntoTerrain_NegDirection(
 	bool flg = false;
 
 	// Get the results, set the camera height
-	// We are interested in the first intersection. 
+	// We are interested in the first intersection.
 	// It is ok to traverse all the results.
 	if (itr != result.end() && itr->worldFragment)
 	{
@@ -172,7 +172,7 @@ bool basicTool_projectScenePointOntoTerrain_NegDirection(
 // Return the scene node of the particle system.
 // Later on, we can use the scene node to directly access the particle system.
 //
-Ogre::SceneNode* 
+Ogre::SceneNode*
 basicTool_initParticleSystemForExplosion(
 	Ogre::SceneManager* sceneMgr
 	, const char* particleName

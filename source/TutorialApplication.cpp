@@ -99,10 +99,10 @@ void BasicTutorial_00::createViewport_Main(void)
 	Ogre::Viewport* vp = mWindow->addViewport(
 		mCamera
 		, 0          // z-order
-		, 0.1
-		, 0.1 
-		, 0.8
-		, 0.8
+		, 0.0f
+		, 0.0f
+		, 1.0f
+		, 1.0f
 	);
 	vp->setBackgroundColour(Ogre::ColourValue(0, 0, 1));
 	mCamera->setAspectRatio(

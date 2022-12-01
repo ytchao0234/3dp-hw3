@@ -23,13 +23,13 @@ void initEnvTools(SceneManager *m)
 // Terrain following
 //
 // Input point cur_pos
-// 
-// Compute a point new_pos which is always above the terrain surface 
+//
+// Compute a point new_pos which is always above the terrain surface
 // by a distane, offset.
 //
 // Let new_pos = cur_pos
-// 
-// To do so, 
+//
+// To do so,
 // (CASE 1) cast a ray upward at position cur_pos.
 // If it hits the terrain surface, cur_pos is under the terrain surface.
 // Get the intersection point. Set new_pos.y = intersection_point.y + offset.
@@ -44,29 +44,36 @@ bool clampToEnvironment(const Vector3& cur_pos, Real offset, Vector3& new_pos)
 {
     if (raySceneQuery==0) return false;
 
-	static Ray updateRay;
-	updateRay.setOrigin(cur_pos);
-	updateRay.setDirection(Vector3::NEGATIVE_UNIT_Y);
-	raySceneQuery->setRay(updateRay);
-	RaySceneQueryResult& qryResult = raySceneQuery->execute();
-	RaySceneQueryResult::iterator i = qryResult.begin();
+	// static Ray updateRay;
+	// updateRay.setOrigin(cur_pos);
+	// updateRay.setDirection(Vector3::NEGATIVE_UNIT_Y);
+	// raySceneQuery->setRay(updateRay);
+	// RaySceneQueryResult& qryResult = raySceneQuery->execute();
+	// RaySceneQueryResult::iterator i = qryResult.begin();
 
-	//
+	// //
 	bool flg = false;
 
-	Real i_y = 0.0;
-	//
-	new_pos = cur_pos;
-	//
-	if (i != qryResult.end() && i->worldFragment)
-	{
-		i_y = i->worldFragment->singleIntersection.y;
+	// Real i_y = 0.0;
+	// //
+	// new_pos = cur_pos;
+	// //
+	// if (i != qryResult.end() && i->worldFragment)
+	// {
+	// 	i_y = i->worldFragment->singleIntersection.y;
 
-		new_pos.y = i_y + offset;
-		flg = true;
-	}
+	// 	new_pos.y = i_y + offset;
+	// 	flg = true;
+	// }
+
+	new_pos = cur_pos;
+	flg = basicTool_projectScenePointOntoTerrain_PosDirection(new_pos);
 
 	if (flg) return flg;
+
+	new_pos = cur_pos;
+	flg = basicTool_projectScenePointOntoTerrain_NegDirection(new_pos);
+	return flg;
 
 	//
 	// Cast a ray downward
@@ -79,9 +86,9 @@ bool clampToEnvironment(const Vector3& cur_pos, Real offset, Vector3& new_pos)
 	//qryResult = raySceneQuery->execute();
 	//i = qryResult.begin();
 	//
-	i_y = 0.0;
+	// i_y = 0.0;
 	//
-	new_pos = cur_pos;
+	// new_pos = cur_pos;
 	//
 	/*
 	if (i != qryResult.end() && i->worldFragment)
@@ -93,12 +100,12 @@ bool clampToEnvironment(const Vector3& cur_pos, Real offset, Vector3& new_pos)
 	}
 	*/
 
-	return flg;
+	// return flg;
 }
 
 
 /*
-bool checkFireHitTarget_SceneObj_Intersect(const Vector3 &fire_d, const Vector3 &start_pos, const Vector3 &end_pos, SceneNode **hit_target, Vector3 &hit_target_pos, Vector3 &hit_target_world_pos, Real &hit_distance) 
+bool checkFireHitTarget_SceneObj_Intersect(const Vector3 &fire_d, const Vector3 &start_pos, const Vector3 &end_pos, SceneNode **hit_target, Vector3 &hit_target_pos, Vector3 &hit_target_world_pos, Real &hit_distance)
 {
 #ifndef ENABLE_COLLISION_DETECTION
 	return false;
@@ -115,7 +122,7 @@ bool checkFireHitTarget_SceneObj_Intersect(const Vector3 &fire_d, const Vector3 
 	RaySceneQueryResult& qryResult = raySceneQuery->execute();
 	RaySceneQueryResult::iterator i = qryResult.begin();
 
-	for (; i != qryResult.end(); i++) {	
+	for (; i != qryResult.end(); i++) {
 		if (i->movable == NULL) continue;
 
 		*hit_target = i->movable->getParentSceneNode();
@@ -143,7 +150,7 @@ bool checkFireHitTarget_SceneObj_Intersect(const Vector3 &fire_d, const Vector3 
 	return flg_hit;
 }
 
-bool checkFireHitTarget_SceneObj_Sphere(const Vector3 &fire_d, const Vector3 &start_pos, const Vector3 &end_pos, SceneNode **hit_target, Vector3 &hit_target_pos, Vector3 &hit_target_world_pos, Real &hit_distance) 
+bool checkFireHitTarget_SceneObj_Sphere(const Vector3 &fire_d, const Vector3 &start_pos, const Vector3 &end_pos, SceneNode **hit_target, Vector3 &hit_target_pos, Vector3 &hit_target_world_pos, Real &hit_distance)
 {
 #ifndef ENABLE_COLLISION_DETECTION
 	return false;
@@ -187,14 +194,14 @@ bool checkFireHitTarget_SceneObj_Sphere(const Vector3 &fire_d, const Vector3 &st
 
 bool checkFireHitTarget_SceneObj(const Vector3 &fire_d, const Vector3 &start_pos, const Vector3 &end_pos, SceneNode **hit_target, Vector3 &hit_target_pos, Vector3 &hit_target_world_pos, Real &hit_distance)
 {
-	
+
 	return checkFireHitTarget_SceneObj_Sphere(
-		fire_d, 
-		start_pos, 
-		end_pos, 
-		hit_target, 
-		hit_target_pos, 
-		hit_target_world_pos, 
+		fire_d,
+		start_pos,
+		end_pos,
+		hit_target,
+		hit_target_pos,
+		hit_target_world_pos,
 		hit_distance);
 }
 

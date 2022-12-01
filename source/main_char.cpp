@@ -98,18 +98,18 @@ void MAIN_CHAR::updateCameraToFollowMainCharacter()
     Vector3 p = mSceneNode->getPosition();
     Vector3 pos = p + mEyePosition;
     Vector3 actualDirection = mCamera->getDirection();
-    //Vector3 new_eye_pos = pos - actualDirection * 5 + Vector3(0, 0, 0);
-    //
+    Vector3 new_eye_pos = pos - actualDirection * 5 + Vector3(0, 0, 0);
+
     // Make the camera follow the main character, mSceneNode
-    // mCamera->setPosition(new_eye_pos);
-    //  mCamera->lookAt(pos);
+    mCamera->setPosition(new_eye_pos);
+    mCamera->lookAt(pos);
 }
 
 //
 // Make the main character to look at point in front of it.
 // The look at direction is the camera direction.
 // Make sure that the main character faces to the look-at direction.
-// 
+//
 // Then invoke updateCameraToFollowMainCharacter( ).
 //
 void MAIN_CHAR::updateViewDirection()
@@ -119,18 +119,22 @@ void MAIN_CHAR::updateViewDirection()
 
     Vector3 p = mSceneNode->getPosition();
     actualDirection.y = 0.0;
-    
+
+    Vector3 point_in_front = p + actualDirection * 10;
+    mSceneNode->lookAt(point_in_front, Node::TS_WORLD);
+    mSceneNode->yaw(Radian(3.14159*0.5));
+
     //point_in_front is a point in front of the character,
     //i.e., p + actualDirection * k, where k is a positive value.
-    // 
+    //
     // Now make the main character look at point_in_front in the world frame.
-    // Invoke lookAt of mSceneNode 
+    // Invoke lookAt of mSceneNode
     // with arguments (point_in_front, Node::TS_WORLD);
-    // 
-    // Correct the orientation of the main character 
+    //
+    // Correct the orientation of the main character
     // due to the model initial orientation issue,
     // i.e., invoke mSceneNode->yaw(Radian(offset));
-    
+
     //
     // The following line is correct.
     //
@@ -143,25 +147,13 @@ void MAIN_CHAR::updateViewDirection()
 //
 void MAIN_CHAR::walkForward(double dt)
 {
-    Vector3 actualDirection = mQuaternion*mInitDirection;
-    Quaternion q = mCamera->getOrientation();
-    Quaternion q0 = Quaternion(Radian(0), Vector3(1, 0, 0));
-    q = q*q0;
-    actualDirection = mCamera->getRealDirection();
+    Vector3 actualDirection = mCamera->getRealDirection();
 
-    //BEGIN: BUG FIXED VERSION
     Vector3 p = mSceneNode->getPosition();
     actualDirection.y = 0.0;
 
     mSceneNode->lookAt(p+ actualDirection*10, Node::TS_WORLD);
     mSceneNode->yaw(Radian(3.14159*0.5));
-    //END: BUG FIXED VERSION
-
-    /*
-    //BUG
-    mSceneNode->setOrientation(q);
-    mSceneNode->yaw(Radian(3.14159*0.5));
-    */
 
     actualDirection = mCamera->getRealDirection();
     Vector3 d;
@@ -175,6 +167,8 @@ void MAIN_CHAR::walkForward(double dt)
     ///////////////////////////////////////////////
 
     mSceneNode->translate(d);
+    setPosition_to_Environment(mSceneNode->getPosition());
+    updateViewDirection();
 
     /*
     Vector3 pos = mSceneNode->getPosition();
@@ -194,13 +188,28 @@ void MAIN_CHAR::walkForward(double dt)
 //
 void MAIN_CHAR::walkBackward(double dt)
 {
-    Vector3 actualDirection = mQuaternion*mInitDirection;
-    Vector3 d;
+    Vector3 actualDirection = mCamera->getRealDirection();
+
+    Vector3 p = mSceneNode->getPosition();
+    actualDirection.y = 0.0;
+
+    mSceneNode->lookAt(p+ actualDirection*10, Node::TS_WORLD);
+    mSceneNode->yaw(Radian(3.14159*0.5));
+
     actualDirection = mCamera->getRealDirection();
+    Vector3 d;
     d = actualDirection*mSpeedFactor*dt
         *mSpeedFactor_Modifer;
 
-    mSceneNode->translate(d);
+    ///////////////////////////////////////////////
+    basicTool_logMessage("MAIN_CHAR::walkBackward:Direction\n");
+    basicTool_logMessage(actualDirection);
+    basicTool_logMessage(-d);
+    ///////////////////////////////////////////////
+
+    mSceneNode->translate(-d);
+    setPosition_to_Environment(mSceneNode->getPosition());
+    updateViewDirection();
     /*
     Vector3 pos = mSceneNode->getPosition();
     bool flg = basicTool_projectScenePointOntoTerrain_PosDirection(pos);
@@ -214,11 +223,9 @@ void MAIN_CHAR::walkBackward(double dt)
     */
 }
 
-void MAIN_CHAR::setPosition_to_Environment(const Vector3 &p)
+void MAIN_CHAR::setPosition_to_Environment(const Vector3 &cur_p)
 {
-    mSceneNode->setPosition(p);
     Vector3 new_p;
-    Vector3 cur_p = mSceneNode->getPosition();
     clampToEnvironment(cur_p, mDistanceOffsetToTerrain, new_p);
     mSceneNode->setPosition(new_p);
 }
@@ -238,7 +245,7 @@ void MAIN_CHAR::setWalkForward()
 //
 void MAIN_CHAR::setWalkBackward()
 {
-    // add your own stuff
+    mActionMode |= ACTION_WALK_BACKWARD;
 }
 
 void MAIN_CHAR::unsetWalkForward()
@@ -282,7 +289,7 @@ bool MAIN_CHAR::update(double dt)
         ||
         (mActionMode & ACTION_WALK_BACKWARD)
         ) {
-       
+
             mAnimationState = mEntity->getAnimationState("Walk");
             mAnimationState->setLoop(true);
             mAnimationState->setEnabled(true);
@@ -310,7 +317,7 @@ bool MAIN_CHAR::update(double dt)
     clampToEnvironment(modified_p, 0.1, new_p);
     mSceneNode->setPosition(new_p);
     //
-    
+
 
     updateCameraToFollowMainCharacter();
 
@@ -341,7 +348,7 @@ void MAIN_CHAR::setFireAction_Normal()
 {
     //SOUND_MANAGER::getInstance()->play_Fire();
     //
-    
+
     //
     // DO NOT CHANGE THIS LINE
     //
@@ -354,9 +361,9 @@ void MAIN_CHAR::addExperience(double exp)
     mExperiencePoints += exp;
     //static int count = 0;
     //count++;
-    if (mExperiencePoints 
+    if (mExperiencePoints
         >= SystemParameter::getInstance()->charMaxExperiencePoints
-        ) 
+        )
     {
         mExperiencePoints = SystemParameter::getInstance()
             ->charMaxExperiencePoints;

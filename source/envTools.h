@@ -11,6 +11,7 @@
 #include <OgreEntity.h>
 #include <OgreLogManager.h>
 #include <OgreRoot.h>
+#include "BasicTools.h"
 //#include "common.h"
 //
 using namespace Ogre;

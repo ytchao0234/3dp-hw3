@@ -7,11 +7,11 @@
 /*!
 \brief 3D Game Programming
 \n
-My Name: AA BB CC
+My Name: Yu-Ting Chao
 \n
-My ID: 0123456789
+My ID: 311551031
 \n
-My Email: aaa@cs.nctu.edu.tw
+My Email: ytchao.cs11@cs.nctu.edu.tw
 
 This is an assignment of 3D Game Programming
 
@@ -35,7 +35,7 @@ class BasicTutorial_00 : public BaseApplication
 public:
 	BasicTutorial_00(void);
 protected:
-	
+
 	virtual bool frameStarted(const Ogre::FrameEvent& evt);
 	virtual void createViewports(void);
 	virtual void createScene(void);
@@ -89,7 +89,7 @@ protected:
 	virtual void createStatusBars();
 	virtual void setupAttackDefenseSystem();
 
-	
+
 private:
 	/*!
 	\brief Create a viewport
@@ -113,7 +113,7 @@ private:
 	// true: update all the game items
 	// false: do not update game items
 	//
-	bool mFlgGoOnGame;					
+	bool mFlgGoOnGame;
 	//
 	bool mKeyPressed_StopKey;
 	Ogre::Real mToggle_CumulativeTime;

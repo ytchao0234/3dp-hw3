@@ -4,12 +4,12 @@ Filename:    BaseApplication.cpp
 -----------------------------------------------------------------------------
 
 This source file is part of the
-   ___                 __    __ _ _    _ 
+   ___                 __    __ _ _    _
   /___\__ _ _ __ ___  / / /\ \ (_) | _(_)
  //  // _` | '__/ _ \ \ \/  \/ / | |/ / |
 / \_// (_| | | |  __/  \  /\  /| |   <| |
 \___/ \__, |_|  \___|   \/  \/ |_|_|\_\_|
-      |___/                              
+      |___/
       Tutorial Framework
       http://www.ogre3d.org/tikiwiki/
 -----------------------------------------------------------------------------
@@ -57,7 +57,7 @@ bool BaseApplication::configure(void)
     {
         // If returned true, user clicked OK so initialise
         // Here we choose to let the system create a default rendering window by passing 'true'
-        mWindow = mRoot->initialise(true, "Fall 2020, NCTU. 3D Game Programming.");
+        mWindow = mRoot->initialise(true, "Fall 2020, NCTU. 3D Game Programming. Student Name: Yu-Ting Chao. ID:311551031");
 
         return true;
     }
@@ -85,7 +85,7 @@ void BaseApplication::createCamera(void)
     mCamera->lookAt(Ogre::Vector3(0,0,-300));
 	*/
 
-	
+
     mCamera->setPosition(Ogre::Vector3(0,80,1000));
     mCamera->lookAt(Ogre::Vector3(0,0,0));
 

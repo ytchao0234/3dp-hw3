@@ -5,7 +5,7 @@
 // Date: 2022/10/05
 //
 //
-// Purpose: Set up the scenes. 
+// Purpose: Set up the scenes.
 //
 //
 //
@@ -173,7 +173,7 @@ void BasicTutorial_00::createStatusBars() {
 	mBar2D_2_Speed = new BAR_2D(mSceneMgr, "wago_game/LifeBar", NULL);
 	mBar2D_2_Speed->setDefaultPos(0.05, 0.65);
 	//
-	// 
+	//
 	mBar2D_Experience = new BAR_2D(mSceneMgr, "Examples/ExpBar", NULL);
 	mBar2D_Experience->setDefaultPos(0.3, 0.9);
 	mBar2D_Experience->setBarDimension(0.6, 0.01);
@@ -189,7 +189,7 @@ void BasicTutorial_00::createStatusBars() {
 
 void BasicTutorial_00::setupAttackDefenseSystem()
 {
-	mAttackDefenseSystem = new ATTACK_DEFENSE_SYSTEM( 
+	mAttackDefenseSystem = new ATTACK_DEFENSE_SYSTEM(
 		mMonsterMgr
 		, mMainChar->getWeaponManager()
 	);
@@ -199,7 +199,7 @@ void BasicTutorial_00::createScene_MainScene(void)
 	Ogre::LogManager::getSingletonPtr()->logMessage(
 		"*** createScene_MainScene ***"
 	);
-	
+
 	Ogre::LogManager::getSingletonPtr()->logMessage(
 		"*** DATA_CONFIG::readData() ***"
 	);
@@ -224,21 +224,19 @@ void BasicTutorial_00::createScene_MainScene(void)
 	mWeaponPSMgr = new WeaponParticleSystemManager(mSceneMgr);
 	mWeaponPSMgr->init("weaponFX");
 	//
-	
+
 	mHitMonsterPSMgr = new WeaponParticleSystemManager(mSceneMgr);
 	mHitMonsterPSMgr->init("hitMonsterFX");
 
 	//
 	ColourValue fadeColour(0.9, 0.9, 0.9);
 
-	/*
 	//This line should put before SetWorldGeometry
 
 	if (READER_DATA::isEnabledExpFog()) {
 		Real density = READER_DATA::getExpFogDensity();
 		mSceneMgr->setFog(FOG_EXP, fadeColour, density);
 	}
-	*/
 	mSceneMgr->setWorldGeometry("terrain.cfg");
 
 
@@ -256,10 +254,10 @@ void BasicTutorial_00::createScene_MainScene(void)
 	//SHADOWTYPE_STENCIL_MODULATIVE);
 	}
 
-	// 
+	//
 
 	mSceneMgr->setAmbientLight(ColourValue(0.7, 0.7, 0.7));
-	//mSceneMgr->setAmbientLight( ColourValue( 1, 1, 1 ) );  
+	//mSceneMgr->setAmbientLight( ColourValue( 1, 1, 1 ) );
 
 	Ogre::LogManager::getSingletonPtr()->logMessage(
 		"***createLights() ***"
