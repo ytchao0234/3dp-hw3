@@ -205,8 +205,8 @@ void basicTool_setOffParticleSystem(
 {
 	particleNode->setPosition(pos);
 	particleNode->setVisible(true);
-	MovableObject *s = particleNode->getAttachedObject(particleName);
-	// MovableObject* s = particleNode->getAttachedObject(0);
+	// MovableObject *s = particleNode->getAttachedObject(particleName);
+	MovableObject* s = particleNode->getAttachedObject(0);
 
 	ParticleSystem* p = static_cast<ParticleSystem*>(s);
 	if (p == NULL) return;
@@ -227,8 +227,8 @@ void basicTool_setVisibleParticleSystem(
 	bool flg_show)
 {
 	particleNode->setVisible(flg_show);
-	MovableObject *s = particleNode->getAttachedObject(particleName);
-	// MovableObject* s = particleNode->getAttachedObject(0);
+	// MovableObject *s = particleNode->getAttachedObject(particleName);
+	MovableObject* s = particleNode->getAttachedObject(0);
 
 	ParticleSystem* p = static_cast<ParticleSystem*>(s);
 	if (p == NULL) return;

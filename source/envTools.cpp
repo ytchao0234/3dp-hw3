@@ -68,11 +68,13 @@ bool clampToEnvironment(const Vector3& cur_pos, Real offset, Vector3& new_pos)
 
 	new_pos = cur_pos;
 	flg = basicTool_projectScenePointOntoTerrain_PosDirection(new_pos);
+	new_pos.y += offset;
 
 	if (flg) return flg;
 
 	new_pos = cur_pos;
 	flg = basicTool_projectScenePointOntoTerrain_NegDirection(new_pos);
+	new_pos.y += offset;
 	return flg;
 
 	//

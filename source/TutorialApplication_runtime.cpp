@@ -74,17 +74,28 @@ bool BasicTutorial_00::update_LargeSphere(double dt)
 	mMapMesh->getStartingPosition(pos);
 
 	Vector3 offset = Vector3(0, 250, 0);
-	static Real b = 0;
-	b += 0.8 * dt;
-	Real y = 9000 * sin(b);
-	pos.y += offset.y + y;
-	//setPosition(pos);
+	static Real angle = 0;
+	Real angular_speed = 0.8;
+	Real amplitude = 50;
+	angle += angular_speed * dt;
+	Real y = amplitude * sin(angle);
+	pos.y += y;
+	mSceneNode_Sphere->setPosition(pos + offset);
 	return true;
 }
 
 bool  BasicTutorial_00::update_Light(double dt) {
+	static Real c = 0.0;
+	Vector3 lightPos;
+	lightPos.x = sin(c) * SystemParameter::getInstance()->radius;
+	lightPos.y = 600;
+	lightPos.z = cos(c) * SystemParameter::getInstance()->radius;
+
+	c += dt;
+	lightPos = Vector3(0, 450, 350);
 	Vector3 pos = mMainChar->getPosition();
-	mLight0->setPosition(Vector3(0, 100, 0) + pos);
+	mLight0->setPosition(lightPos + pos);
+
 	return true;
 }
 

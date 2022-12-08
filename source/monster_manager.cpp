@@ -25,19 +25,19 @@ MONSTER_MANAGER::MONSTER_MANAGER(
 	//
 	Vector3 org = character_start_pos;
 
-	for (int i = 0; i < mNumMonsters; ++i) 
+	for (int i = 0; i < mNumMonsters; ++i)
 	{
 		mLifeStateArr[i] = true;
 		mMonstersArr[i] = new MONSTER(a_SceneMgr);
-		String meshName = "ogrehead.mesh";
+		String meshName = READER_DATA::getMeshName();
 		//READER_DATA::getMeshName()
 		mMonstersArr[i]->createGameObj("m", meshName);
-		
+
 		Vector3 pos;
 		Real x = -1+2*(rand()%100)/100.0;
 		Real z = -1+2*(rand()%100)/100.0;
-		pos.x = 7700*x;
-		pos.z = 7700*z;
+		pos.x = 700*x;
+		pos.z = 700*z;
 		pos.y = 20;
 
 		mMonstersArr[i]->setPosition(pos+org);
@@ -52,19 +52,22 @@ MONSTER_MANAGER::MONSTER_MANAGER(
 }
 void MONSTER_MANAGER::setMaxMonstersNum(int a_Num)
 {
-	if (a_Num >= mNumMonsters) 
+	if (a_Num >= mNumMonsters)
 	{
 		a_Num = mNumMonsters;
 	}
 
 
 	mCurMonstersNum = a_Num;
-	for (int i = 0; i < mNumMonsters; ++i) 
+	for (int i = 0; i < mNumMonsters; ++i)
 	{
-		//if (i<mCurMonstersNum) {
+		if (i<mCurMonstersNum) {
 			mMonstersArr[i]->setVisible(true);
 			mMonstersArr[i]->makeAlive(true);
-		//} else {
+		} else {
+			mMonstersArr[i]->setVisible(false);
+			mMonstersArr[i]->makeAlive(false);
+		}
 	}
 }
 
@@ -72,7 +75,7 @@ void MONSTER_MANAGER::setTargetForMonsters(GAME_OBJ *a_Target)
 {
 
 	mMonstersTarget = a_Target;
-	for (int i = 0; i < mNumMonsters; ++i) 
+	for (int i = 0; i < mNumMonsters; ++i)
 	{
 		Vector3 p = mMonstersArr[i]->getInitPosition();
 		mMonstersArr[i]->setTarget(a_Target, 0);
@@ -84,9 +87,9 @@ void MONSTER_MANAGER::setTargetForMonsters(GAME_OBJ *a_Target)
 //
 void MONSTER_MANAGER::resolveMonsterTargetCollision()
 {
-	if (mMonstersTarget == 0) return;	
+	if (mMonstersTarget == 0) return;
 	Vector3 p1 = mMonstersTarget->getPosition();
-	for (int i = 0; i < mCurMonstersNum; ++i) 
+	for (int i = 0; i < mCurMonstersNum; ++i)
 	{
 		if (!mMonstersArr[i]->isAlive()) continue;
 
@@ -96,7 +99,7 @@ void MONSTER_MANAGER::resolveMonsterTargetCollision()
 		Real d = mm.length();
 		mm.normalise();
         //
-		// Adjust the monster position 
+		// Adjust the monster position
 		// if the monster collides with the main character.
 		//
 	}
@@ -104,10 +107,10 @@ void MONSTER_MANAGER::resolveMonsterTargetCollision()
 
 void MONSTER_MANAGER::resolveMonsterCollision()
 {
-	for (int i = 0; i < mCurMonstersNum; ++i) 
+	for (int i = 0; i < mCurMonstersNum; ++i)
 	{
 		if (!mMonstersArr[i]->isAlive()) continue;
-		for (int j = i+1; j < mCurMonstersNum; ++j) 
+		for (int j = i+1; j < mCurMonstersNum; ++j)
 		{
 			if (!mMonstersArr[j]->isAlive()) continue;
 			//
@@ -124,7 +127,7 @@ void MONSTER_MANAGER::resolveMonsterCollision()
 
 bool MONSTER_MANAGER::update(const Ogre::FrameEvent& evt)
 {
-	for (int i = 0; i < mCurMonstersNum; ++i) 
+	for (int i = 0; i < mCurMonstersNum; ++i)
 	{
 		if (!mMonstersArr[i]->isAlive()) continue;
 
@@ -159,16 +162,22 @@ void MONSTER_MANAGER::setParticleSystem(
     )
 {
     int particleCount = 0;
-    for (int i = 0; i < mCurMonstersNum; ++i) 
+    for (int i = 0; i < mCurMonstersNum; ++i)
     {
         Vector3 q = mMonstersArr[i]->getInitPosition();
         float d = pos.distance(q);
         if (particleCount >= numParticles) break;
-		double threshold = 600;
+		double threshold = 200;
         if (d < threshold) {
 			// set the particle scene node to be visible.
 			// set the particle system to be visible
 			// Add your own stuff
+			particleNodes[particleCount]->setVisible(true);
+			basicTool_setOffParticleSystem(
+                particleNodes[particleCount],
+                "explosion",
+                q
+			);
 
             ++particleCount;
         }
