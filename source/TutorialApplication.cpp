@@ -27,8 +27,8 @@ BasicTutorial_00::BasicTutorial_00(void) {
 	mMiniMap_KeyPressedZoomMode = 0;
 	mMiniMap_CameraDistanceAdjustSpeed = 0;
 	mMiniMap_CameraDistanceSlowDownSpeed = 0;
-	//mSound = new SOUND;
-	//mSound->init();
+	mSound = new SOUND;
+	mSound->init();
 	//
 	//mScoreCoord_MaxX = 0.5;
 	mScoreCoord_MaxX = 0.10;

@@ -30,8 +30,8 @@ bool WEAPON::hitTarget_Sphere(
 		Real d = mVelocity.dotProduct(normal_dir);
 		if (0.0 >= d) {
 			mVelocity = mVelocity - d * normal_dir;
-			//mSound->init();
-			//mSound->play();
+			// mSound->init();
+			// mSound->play();
 			SOUND_MANAGER::getInstance()->play_Explosion();
 
 		}
@@ -42,17 +42,17 @@ bool WEAPON::hitTarget_Sphere(
 
 //
 // Purpose:
-// Determine if the weapon hits the target. 
+// Determine if the weapon hits the target.
 // Use sphere-sphere intersection test.
 // If yes, play a particle system at the hit position.
 // Also, play a sound clip, e.g., explosion, etc.
 // Furthermore, the weapon should bounce off from the target.
 // so, need to compute a new velocity for the weapon.
-// 
+//
 // Position p is the target position.
 // r is the radius of the target.
 // In our case, the target can the large sphere or others.
-// 
+//
 // Return true: if hit
 // Return false: otherwise, i.e., no hit
 //
@@ -64,6 +64,23 @@ bool WEAPON::hitTarget_Sphere(
 {
 	bool flg = false;
 	// add your own stuff
+	Vector3 pos = mSceneNode->getPosition();
+
+	if (r >= pos.distance(p)) {
+		Vector3 normal_dir = pos - p;
+		normal_dir.normalise();
+		Vector3 new_pos = p + (r + 0.5) * normal_dir;
+		mSceneNode->setPosition(new_pos);
+		Real d = mVelocity.dotProduct(normal_dir);
+		if (0.0 >= d) {
+			mVelocity = mVelocity - d * normal_dir;
+			// mSound->init();
+			// mSound->play();
+			SOUND_MANAGER::getInstance()->play_Explosion();
+			wpsMgr->play(pos);
+		}
+		flg = true;
+	}
 	return flg;
 }
 
@@ -88,15 +105,14 @@ bool WEAPON::update(double dt)
 	//
 	// Compute position of the weapon based on projectile motion.
 	//
-	pos += 0.2*mVelocity * dt;		// compute the temporary position
-	/*
+	// pos += 0.2*mVelocity * dt;		// compute the temporary position
+
 	pos += mVelocity * dt;		// compute the temporary position
 	Vector3 grav(0, -29.8, 0);	// garvity
 	mVelocity += grav * dt;		// update velocity for projectile motion
-	*/
 
 	//
-	// Compute another temporary position due the interaction 
+	// Compute another temporary position due the interaction
 	// between the weapon and the terrain surface.
 	// If the bullet hits the terrain, reverse its velocity direction
 	// and reduce the magnitue of the velocity.
@@ -107,11 +123,11 @@ bool WEAPON::update(double dt)
 	bool flg = basicTool_projectScenePointOntoTerrain_PosDirection(new_pos);
 	if (flg) {
 		pos = new_pos + Vector3(0, 1.0, 0) + Vector3(0, 1, 0) * r;
-		//mVelocity.y = -mVelocity.y * 20;
+		mVelocity.y = -mVelocity.y * 0.9;
 	}
-	
+
 	//
-	// Compute the final position of the weapon due to the interaction 
+	// Compute the final position of the weapon due to the interaction
 	// between the weapon and the wall structure.
 	// If pos != modified_p, the weapon hits the wall structure.
 	// The new velocity direction of the weapon is the reflection ray
@@ -131,7 +147,9 @@ bool WEAPON::update(double dt)
 			float d = mVelocity.dotProduct(n);
 
 			//Vector3 new_v = reflection of mVelocity.
-			//mVelocity = new_v;
+			Vector3 new_v = mVelocity - 2 * d * n;
+			mVelocity = new_v;
+
 
 			//Output the vector to the console window.
 			//cout << "normal:" << n.x << "\t" << n.y << "\t" << n.z << endl;
@@ -156,7 +174,7 @@ void WEAPON::adjustDueToMap()
 		//
 
 		// This is correct. Based on reflection ray
-		Vector3 new_v = mVelocity - 2 * d * n; 
+		Vector3 new_v = mVelocity - 2 * d * n;
 		mVelocity = new_v;
 
 		//  cout << "normal:" << n.x << "\t" << n.y << "\t" << n.z << endl;

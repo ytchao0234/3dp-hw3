@@ -7,15 +7,15 @@
 //
 // The functions will be invoked at the runtime stage.
 //
-// Example: 
+// Example:
 // Handle key events to control the camera.
 // Handle key events to set viewports.
 // Handle key events to obtain the camera information.
 // Handle key events to activate the objects/items, e.g., spheres, robots, etc
 // And others
-// 
-// A key handler handles simple tasks, 
-// such as setting the states of game objects. 
+//
+// A key handler handles simple tasks,
+// such as setting the states of game objects.
 //
 //
 
@@ -123,12 +123,12 @@ bool BasicTutorial_00::keyPressed(const OIS::KeyEvent& arg)
 	flg |= keyPressed_UpdateCharacterState(arg);
 	flg |= keyPressed_UpdateCameraState(arg);
 	flg |= keyPressed_UpdateSystemState(arg);
-	
+
 	if (arg.key == OIS::KC_0) {
 		mKeyPressed_StopKey = true;
 	}
 
-	
+
 	return flg;
 }
 

@@ -86,7 +86,7 @@ void READER_DATA::readData(const std::string& fileName)
 			*fp >> mVersion;
 
 		}
-		
+
 		if (key.compare("MAP_BITMAP_NAME") == 0) {
 			*fp >> mMapBitMapName;
 		}
@@ -164,18 +164,23 @@ void READER_DATA::readData(const std::string& fileName)
 
 		if (key.compare("SOUND_WAVE_FILE_EXPLOSION") == 0) {
 			//
+			*fp >> mSoundFile_Explosion;
 		}
 		if (key.compare("SOUND_WAVE_FILE_FIRE") == 0) {
 			//
+			*fp >> mSoundFile_Fire;
 		}
 		if (key.compare("SOUND_WAVE_FILE_STAMINA") == 0) {
 			//
+			*fp >> mSoundFile_Stamina;
 		}
 		if (key.compare("SOUND_WAVE_FILE_LEVEL_UP") == 0) {
 			//
+			*fp >> mSoundFile_LevelUp;
 		}
 		if (key.compare("SOUND_WAVE_FILE_VICTORY") == 0) {
 			//
+			*fp >> mSoundFile_Victory;
 		}
 
 
@@ -269,23 +274,23 @@ std::string READER_DATA::getSoundFileName_Fire() {
 
 //mSoundFile_Explosion
 std::string READER_DATA::getSoundFileName_Explosion() {
-	return std::string("");
+	return mSoundFile_Explosion;
 }
 
 //mSoundFile_Stamina
 std::string READER_DATA::getSoundFileName_Stamina() {
-	return std::string("");
+	return mSoundFile_Stamina;
 }
 
 //mSoundFile_LevelUp
 std::string READER_DATA::getSoundFileName_LevelUp() {
-	return std::string("");
+	return mSoundFile_LevelUp;
 }
 
 //mSoundFile_Victory
 std::string READER_DATA::getSoundFileName_Victory()
 {
-	return std::string("");
+	return mSoundFile_Victory;
 }
 
 int READER_DATA::getVictoryPoints()
@@ -305,7 +310,7 @@ void READER_DATA::report()
 
 	cout << "mVersion:" << "\t" << mVersion << endl;
 	cout << "mMapBitMapName:" << "\t" << mMapBitMapName << endl;
-	
+
 	cout << "mEnableExpFog:" << "\t" << mEnableExpFog << endl;
 	cout << "mEnableShadow:" << "\t" << mEnableShadow << endl;
 	cout << "mExpFogDensity:" << "\t" << mExpFogDensity << endl;

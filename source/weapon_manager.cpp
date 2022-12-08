@@ -65,28 +65,31 @@ void WEAPON_MANAGER::fire_Normal(
 	// mCoolDownTimeForFiring and mMaxCoolDownTime.
 	// if mCoolDownTimeForFiring>= mMaxCoolDownTime, fire the bullet.
 
-	//
-	// Add your own stuff
-	//
+	if (mCoolDownTimeForFiring >= mMaxCoolDownTime)
+	{
+		//
+		// Add your own stuff
+		//
 
-	// Reset the cooling time.
-	// Then activate the bullet, g.
-	//
-	mCoolDownTimeForFiring = 0;
-	g->setPosition(pos);
-	//float bullet_speed = READER_DATA::getBulletSpeed();
-	float bullet_speed = 100;
-	g->setVelocity(direction * bullet_speed);
-	g->setSpeedFactor(1);
-	//
-	// Set the life of the bullet. 
-	// Use g->setLife(current life time, maximum life time).
-	//
-	g->setLife(500, 500);
+		// Reset the cooling time.
+		// Then activate the bullet, g.
+		//
+		mCoolDownTimeForFiring = 0;
+		g->setPosition(pos);
+		float bullet_speed = READER_DATA::getBulletSpeed();
+		// float bullet_speed = 100;
+		g->setVelocity(direction * bullet_speed);
+		g->setSpeedFactor(1);
+		//
+		// Set the life of the bullet.
+		// Use g->setLife(current life time, maximum life time).
+		//
+		g->setLife(5, 5);
 
-	g->makeAlive();
-	//
-	g->adjustDueToMap();
+		g->makeAlive();
+		//
+		g->adjustDueToMap();
+	}
 
 	//
 }
@@ -98,7 +101,7 @@ void WEAPON_MANAGER::installWeaponWSManager(WeaponParticleSystemManager* wpsMgr)
 
 //
 // There is a cooling time. After the cooling time is over,
-// another bullet can be fired. 
+// another bullet can be fired.
 //
 //
 

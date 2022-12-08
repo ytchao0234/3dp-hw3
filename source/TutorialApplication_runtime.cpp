@@ -36,6 +36,7 @@ using namespace Ogre;
 //
 bool BasicTutorial_00::update_MiniMapCamera(double dt)
 {
+
 	switch (mMiniMap_KeyPressedZoomMode) {
 	case 1:
 		mMiniMap_CameraDistance -= dt * mMiniMap_CameraDistanceAdjustSpeed;
@@ -51,11 +52,15 @@ bool BasicTutorial_00::update_MiniMapCamera(double dt)
 	}
 
 	// Add your own stuff
-
-	Real pre = mMiniMap_CameraDistanceAdjustSpeed;
-	mMiniMap_CameraDistanceAdjustSpeed -= dt * mMiniMap_CameraDistanceSlowDownSpeed;
-	mMiniMap_CameraDistanceSlowDownSpeed = 0;
-	mMiniMap_CameraDistanceAdjustSpeed = 0;
+	if (abs(mMiniMap_CameraDistanceAdjustSpeed) > abs(dt * mMiniMap_CameraDistanceSlowDownSpeed))
+	{
+		mMiniMap_CameraDistanceAdjustSpeed -= dt * mMiniMap_CameraDistanceSlowDownSpeed;
+	}
+	else
+	{
+		mMiniMap_CameraDistanceAdjustSpeed = 0;
+		mMiniMap_CameraDistanceSlowDownSpeed = 0;
+	}
 
 	Vector3 cpos = mMainChar->getPosition();
 	mCameraArr[1]->setPosition(cpos + Vector3(0, 1000 + mMiniMap_CameraDistance, 0));

@@ -18,3 +18,11 @@ SHADOW_ENABLED 	1
 VICTORY_POINTS	15
 
 MAP_BITMAP_NAME 	wago_game_map01.png
+
+SOUND_WAVE_FILE_EXPLOSION	explosion.wav
+#SOUND_WAVE_FILE_FIRE		missle.wav
+#SOUND_WAVE_FILE_FIRE		cannon.wav
+SOUND_WAVE_FILE_FIRE		Fireball.wav
+SOUND_WAVE_FILE_STAMINA		warning_not_enough_stamina.wav		
+SOUND_WAVE_FILE_LEVEL_UP	level_up.wav
+SOUND_WAVE_FILE_VICTORY		victory2.wav

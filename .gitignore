@@ -8,3 +8,4 @@
 !/bin/release/*.txt
 !/source/
 !/source/**
+/source/.vscode

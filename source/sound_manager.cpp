@@ -30,71 +30,71 @@ void SOUND_MANAGER::init(int numSounds)
     std::string soundFileName;
     //////////////////////////////////////////////////////
     /*
-    soundFileName = filePath 
-        + "/" 
+    soundFileName = filePath
+        + "/"
         + SOUND_MNG_SOUNDWAVE_FILE_EXPLOSION;
     */
 
     //
-    soundFileName = filePath 
-        + "/" 
+    soundFileName = filePath
+        + "/"
         + READER_DATA::getSoundFileName_Explosion();
     //
     mSound_Explosion = new SOUND*[mNumSounds];
     for (int i = 0; i < mNumSounds;++i) {
         mSound_Explosion[i] = new SOUND;
-        
+
         mSound_Explosion[i]->init(soundFileName, i==0);
     }
 
     //
     /*
-    soundFileName = filePath 
-        + "/" 
+    soundFileName = filePath
+        + "/"
         + SOUND_MNG_SOUNDWAVE_FILE_FIRE;
     */
     //
     //
-    soundFileName = filePath 
-        + "/" 
+    soundFileName = filePath
+        + "/"
         + READER_DATA::getSoundFileName_Fire();
     //
 
     mSound_Fire = new SOUND*[mNumSounds];
     for (int i = 0; i < mNumSounds;++i) {
         mSound_Fire[i] = new SOUND;
-        
+
         mSound_Fire[i]->init(soundFileName, false);
     }
     //
     //
     /*
-    soundFileName = filePath 
-        + "/" 
+    soundFileName = filePath
+        + "/"
         + SOUND_MNG_SOUNDWAVE_FILE_STAMINA;
     */
     //
     //
-    soundFileName = filePath 
-        + "/" 
+    soundFileName = filePath
+        + "/"
         + READER_DATA::getSoundFileName_Stamina();
     //
     mSound_Stamina = new SOUND*[mNumSounds];
     for (int i = 0; i < mNumSounds;++i) {
         mSound_Stamina[i] = new SOUND;
-        
+
         mSound_Stamina[i]->init(soundFileName, false);
     }
     //
     //
-    soundFileName = filePath 
-        + "/" 
+    soundFileName = filePath
+        + "/"
         + READER_DATA::getSoundFileName_LevelUp();
     //
     mSound_LevelUp = new SOUND*[mNumSounds];
     for (int i = 0; i < mNumSounds;++i) {
         mSound_LevelUp[i] = new SOUND;
-        
+
         mSound_LevelUp[i]->init(soundFileName, false);
     }
     //
@@ -149,7 +149,7 @@ void SOUND_MANAGER::init(int numSounds)
 
   void SOUND_MANAGER::play_Victory()
   {
-      
+
       std::cout << "SOUND_MANAGER::play_Victory()" << std::endl;
 
       mSound_Victory[mSoundIndex_Victory]->play();
