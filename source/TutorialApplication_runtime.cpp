@@ -138,6 +138,8 @@ bool BasicTutorial_00::adjust_MainCharacterPosition_InteractionWithLargeSphere(d
 	//
 	// adjust the main character position
 	//
+	p = p + dt*dlen*npq;
+	mMainChar->setPosition(p);
 
 	return true;
 }
@@ -150,21 +152,24 @@ bool BasicTutorial_00::update_CharacterLevel_UI(double dt)
 	//
 	// add your own stuff
 	//
+	mLevel = mMainChar->getLevel();
+	mDigitDialogue_Level->setScore(mLevel, 0.05, 0.1);
+
 	return true;
 }
 
 bool BasicTutorial_00::update_CharacterExperience_UI(double dt)
 {
-	//expPoints = (float) mMainChar->getExperience();
-	//maxExpPoints = (float)mMainChar->getMaxExperience();
+	float expPoints = (float) mMainChar->getExperience();
+	float maxExpPoints = (float)mMainChar->getMaxExperience();
 
-	//basicTool_logMessage("expPoints:", expPoints);
-	//basicTool_logMessage("maxExpPoints:", maxExpPoints);
+	basicTool_logMessage("expPoints:", expPoints);
+	basicTool_logMessage("maxExpPoints:", maxExpPoints);
 
 
-	//mBar2D_Experience->setSplit2Parts(true);
-	//mBar2D_Experience->setInfo(expPoints, maxExpPoints);
-	//mBar2D_Experience->update(0, 0);
+	mBar2D_Experience->setSplit2Parts(true);
+	mBar2D_Experience->setInfo(expPoints, maxExpPoints);
+	mBar2D_Experience->update(0, 0);
 	return true;
 }
 
@@ -175,9 +180,35 @@ bool BasicTutorial_00::update_CharacterInternalState_UI(double dt)
 	// update stamina bar, mBar2D_Stamina
 	// if condition is satisified, play a voice about stamina
 	//
+	unsigned int mode = mMainChar->getActionMode();
+	float dir = 1.0;
+	float k = 5.0;
+	float decrease_rate = -5.0;
+	float increase_rate = 30.0;
+
+	if (mode) dir = -decrease_rate; // if mode is non-zero, the main character is moving.
+	else { k = increase_rate; }      // the main character does not move
+	mStamina += k * dir * dt;
+
+	// Make sure that mStamina must be inside [mStamina_Min, mStamina_Max].
+	if (mStamina < mStamina_Min) mStamina = mStamina_Min;
+	if (mStamina > mStamina_Max) mStamina = mStamina_Max;
+
+    // update the stamina bar
+	mBar2D_Stamina->setSplit2Parts(true);
+	mBar2D_Stamina->setInfo(mStamina, mStamina_Max);
+	mBar2D_Stamina->update(0, 0);
+
+	//
 	// compute walk speed factor
 	// update speed bar, mBar2D_2_Speed
 	//
+	float s = mStamina / mStamina_Max;
+	float max_walk_speed_factor = 400.0;
+	float speed_factor = sqrt(s) * max_walk_speed_factor;
+	mBar2D_2_Speed->setSplit2Parts(true);
+	mBar2D_2_Speed->setInfo(speed_factor, max_walk_speed_factor);
+	mBar2D_2_Speed->update(0, 0);
 
 	return true;
 }
@@ -209,12 +240,18 @@ bool BasicTutorial_00::update_Score_UI(
 	}
 	else {
 		// Add your own stuff
+
+		mScoreCoord_X -= dt * k;
+		if (mScoreCoord_X < mScoreCoord_MinX) {
+			mScoreCoord_X = mScoreCoord_MinX;
+			mScoreBoard_Direction = !mScoreBoard_Direction;
+		}
 	}
 
 	mfScore += new_score;				// accumulate the score
 	if (mfScore >= 1000) mfScore = 0;
 	mScore = mfScore;
-	//mDigitDialogue->setScore(mScore, mScoreCoord_X, 0.05);
+	mDigitDialogue->setScore(mScore, mScoreCoord_X, 0.05);
 	mDigitDialogue->setScore(mScore, 0.1, 0.05);
 	return true;
 }

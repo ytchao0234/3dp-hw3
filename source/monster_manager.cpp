@@ -101,7 +101,13 @@ void MONSTER_MANAGER::resolveMonsterTargetCollision()
         //
 		// Adjust the monster position
 		// if the monster collides with the main character.
-		//
+		// rr is the sum of the radii of the monster and the main character. E.g., 70
+		Real rr = 70;
+		if (d < rr) {
+			d = rr - d +1.0;
+			mMonstersArr[i]->translate(d*mm);
+		}
+
 	}
 }
 
@@ -120,6 +126,18 @@ void MONSTER_MANAGER::resolveMonsterCollision()
 			//
 			// Move the monsters i and j away from each other
 			//
+			Vector3 mm = p0 - p1;
+			mm.y = 0;
+			Real d = mm.length();
+			mm.length();
+			mm.normalise();
+            // rr is the sum of the radii of the monsters i and j. E.g., 60
+			Real rr = 60;
+			if (d < rr) {
+				d = rr-d+1.0;
+				mMonstersArr[i]->translate(d*mm*0.5);
+				mMonstersArr[j]->translate(-d*mm*0.5);
+			}
 		}
 	}
 }
@@ -136,7 +154,7 @@ bool MONSTER_MANAGER::update(const Ogre::FrameEvent& evt)
 	}
 	resolveMonsterTargetCollision();
 	resolveMonsterCollision();
-	/*
+
 	resolveMonsterTargetCollision();
 	resolveMonsterCollision();
 	resolveMonsterTargetCollision();
@@ -144,7 +162,7 @@ bool MONSTER_MANAGER::update(const Ogre::FrameEvent& evt)
 	resolveMonsterTargetCollision();
 	resolveMonsterCollision();
 	resolveMonsterTargetCollision();
-	*/
+
 
     return true;
 }
