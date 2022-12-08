@@ -34,12 +34,22 @@ bool ATTACK_DEFENSE_SYSTEM::performAttack(
 	, double dt)
 {
 	// check if w hits m.
-	// if yes, play an explosion sound 
+	// if yes, play an explosion sound
 	// and set the life of the monster to zero.
-	// 
+	//
 	bool flgHit = false;
 	//
-	//
+	Vector3 p = w->getPosition();
+	Vector3 q = m->getPosition();
+	double d = p.distance(q);
+	double rr = 50;;
+	// d is the distance between p and q.
+    // sum of the two radii, e.g., 50. You can set a suitable value to it.
+	if (d < rr) {
+		m->setLife(0);
+		flgHit = true;
+		SOUND_MANAGER::getInstance()->play_Explosion();
+	}
 	//
 	return flgHit;
 }
@@ -75,12 +85,12 @@ int ATTACK_DEFENSE_SYSTEM::update(
 			if (flgHit) {
 				++numHits;
 				w->setLife(0);
-				//p = m->getPosition( )
-				//Use hitMonsterSPMgr to invoke play(p)
+				Vector3 p = m->getPosition( );
+				hitMonsterSPMgr->play(p);
 				break;
 			}
 			else {
-				
+
 			}
 		}
 		mWeaponMgr->init_Traversal();

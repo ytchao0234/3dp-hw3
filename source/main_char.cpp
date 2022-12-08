@@ -346,7 +346,7 @@ void MAIN_CHAR::updateWeapon(double dt)
 
 void MAIN_CHAR::setFireAction_Normal()
 {
-    //SOUND_MANAGER::getInstance()->play_Fire();
+    SOUND_MANAGER::getInstance()->play_Fire();
     //
 
     //
@@ -368,11 +368,16 @@ void MAIN_CHAR::addExperience(double exp)
         mExperiencePoints = SystemParameter::getInstance()
             ->charMaxExperiencePoints;
     }
-    int c = mExperiencePoints;
+    int expPoints = mExperiencePoints;
 
     //
     // Play "you level up!" when the character's level is up.
     //
+    if (expPoints % 10 == 0) {
+        SOUND_MANAGER::getInstance()->play_LevelUp();
+        ++mLevel;
+    }
+
 }
 
 // current experience points

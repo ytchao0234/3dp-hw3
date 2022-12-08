@@ -39,13 +39,16 @@ bool BasicTutorial_00::keyPressed_CharacterPosition(
 )
 {
 	bool flg_handled = false;
+	Vector3 pos;
 	if (arg.key == OIS::KC_F1) {
 		flg_handled = true;
-		mMainChar->setPosition(Vector3(860, 51, 751));
+		mMapMesh->getStartingPosition(pos);
+		mMainChar->setPosition(Vector3(pos.x, 51, pos.z));
 	}
 	if (arg.key == OIS::KC_F2) {
 		flg_handled = true;
-		mMainChar->setPosition(Vector3(4612, 41, 4529));
+		mMapMesh->getDestination(pos);
+		mMainChar->setPosition(Vector3(pos.x, 41, pos.z));
 	}
 	return flg_handled;
 

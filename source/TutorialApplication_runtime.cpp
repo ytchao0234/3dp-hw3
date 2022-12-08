@@ -183,8 +183,9 @@ bool BasicTutorial_00::update_CharacterInternalState_UI(double dt)
 	unsigned int mode = mMainChar->getActionMode();
 	float dir = 1.0;
 	float k = 5.0;
-	float decrease_rate = -5.0;
+	float decrease_rate = 5.0;
 	float increase_rate = 30.0;
+	static bool flg_voice_stamina = false;
 
 	if (mode) dir = -decrease_rate; // if mode is non-zero, the main character is moving.
 	else { k = increase_rate; }      // the main character does not move
@@ -193,6 +194,17 @@ bool BasicTutorial_00::update_CharacterInternalState_UI(double dt)
 	// Make sure that mStamina must be inside [mStamina_Min, mStamina_Max].
 	if (mStamina < mStamina_Min) mStamina = mStamina_Min;
 	if (mStamina > mStamina_Max) mStamina = mStamina_Max;
+
+	float threshold = (mStamina_Min + mStamina_Max) / 2.0;
+
+	if (!flg_voice_stamina && mStamina < threshold) {
+		SOUND_MANAGER::getInstance()->play_Stamina();
+		flg_voice_stamina = true;
+	}
+	else if (mStamina >= threshold)
+	{
+		flg_voice_stamina = false;
+	}
 
     // update the stamina bar
 	mBar2D_Stamina->setSplit2Parts(true);
@@ -252,7 +264,7 @@ bool BasicTutorial_00::update_Score_UI(
 	if (mfScore >= 1000) mfScore = 0;
 	mScore = mfScore;
 	mDigitDialogue->setScore(mScore, mScoreCoord_X, 0.05);
-	mDigitDialogue->setScore(mScore, 0.1, 0.05);
+	// mDigitDialogue->setScore(mScore, 0.1, 0.05);
 	return true;
 }
 
@@ -302,6 +314,16 @@ void BasicTutorial_00::checkVictory(double dt)
 	//
 	// Add your own stuff
 	//
+	float expPoints = mMainChar->getExperience();
+	float maxExpPoints = mMainChar->getMaxExperience();
+	if (expPoints >= maxExpPoints) {
+		if (!mFlg_Victory) {
+			SOUND_MANAGER::getInstance()->play_Victory();
+            mSceneMgr->setAmbientLight(ColourValue(0.1, 0.1, 0.1));
+			mLight0->setDiffuseColour(0.2, 0.2, 0.2);
+		}
+		mFlg_Victory = true;
+	}
 }
 
 bool BasicTutorial_00::frameStarted(const Ogre::FrameEvent& evt)
