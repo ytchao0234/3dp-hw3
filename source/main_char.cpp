@@ -299,7 +299,7 @@ bool MAIN_CHAR::update(double dt)
             }
             else {
                 //move backward, animation
-                //mAnimationState->addTime(-dt*sf);
+                mAnimationState->addTime(-dt*sf);
             }
     } else {
         mAnimationState = mEntity->getAnimationState("Idle");

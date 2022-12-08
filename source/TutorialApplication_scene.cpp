@@ -138,7 +138,7 @@ void BasicTutorial_00::createAvatar()
 	//
 	mMainChar->createGameObj("avatar", READER_DATA::getAvatarMeshName());
 	mMainChar->setEyePosition_Y(READER_DATA::getAvatarEyePosition_Y());
-	//mMainChar->setVisibilityFlags(0x10);
+	mMainChar->setVisibilityFlags(0x10);
 	mMainChar->attachCamera(mCameraArr[0]);
 
 	mMainChar->setMaxBulletsNum(READER_DATA::getMaxBulletsNum());

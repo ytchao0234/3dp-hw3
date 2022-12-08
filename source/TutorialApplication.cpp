@@ -84,10 +84,10 @@ void BasicTutorial_00::createCamera_01(void)
 {
 	mSceneMgr = mSceneMgrArr[1];
 	mCamera = mCameraArr[1] = mSceneMgr->createCamera("PlayerCam2");
-	mCamera->setPosition(Ogre::Vector3(750, 25800, 750));
+	mCamera->setPosition(Ogre::Vector3(750, 1000, 750));
 	mCamera->lookAt(Ogre::Vector3(750, 0, 751));
 	mCamera->setNearClipDistance(5);
-	//mCameraManArr[1] = new OgreBites::SdkCameraMan(mCamera);   // create a default camera controller
+	mCameraManArr[1] = new OgreBites::SdkCameraMan(mCamera);   // create a default camera controller
 
 }
 
@@ -107,7 +107,7 @@ void BasicTutorial_00::createViewport_Main(void)
 	vp->setBackgroundColour(Ogre::ColourValue(0, 0, 1));
 	mCamera->setAspectRatio(
 		Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
-	//vp->setVisibilityMask(0x01);
+	vp->setVisibilityMask(0x01);
 }
 
 void BasicTutorial_00::createViewport_MiniMap(void)
@@ -117,7 +117,7 @@ void BasicTutorial_00::createViewport_MiniMap(void)
 	Ogre::Viewport* vp = mWindow->addViewport(
 		mCamera,
 		1,
-		0.5,
+		0.75,
 		0.0,
 		0.25,
 		0.5
@@ -126,7 +126,7 @@ void BasicTutorial_00::createViewport_MiniMap(void)
 	mCamera->setAspectRatio(
 		Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
 	vp->setOverlaysEnabled(false);
-	//vp->setVisibilityMask(0x10);
+	vp->setVisibilityMask(0x10);
 }
 
 

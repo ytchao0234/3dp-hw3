@@ -5,8 +5,8 @@
 // Date: 2022/10/05
 //
 //
-// Purpose: Update the game state, 
-// including object states, game progress, physics simulation, 
+// Purpose: Update the game state,
+// including object states, game progress, physics simulation,
 // collision detection, collision response, and etc.
 //
 //
@@ -51,17 +51,16 @@ bool BasicTutorial_00::update_MiniMapCamera(double dt)
 	}
 
 	// Add your own stuff
-	
-	//Real pre = mMiniMap_CameraDistanceAdjustSpeed;
-	//mMiniMap_CameraDistanceAdjustSpeed -= dt * mMiniMap_CameraDistanceSlowDownSpeed;
-	// mMiniMap_CameraDistanceSlowDownSpeed = 0;
-	//mMiniMap_CameraDistanceAdjustSpeed = 0;
 
-	//Vector3 cpos = mMainChar->getPosition();
-	//mCameraArr[1]->setPosition(cpos + Vector3(0, 1000 + mMiniMap_CameraDistance, 0));
+	Real pre = mMiniMap_CameraDistanceAdjustSpeed;
+	mMiniMap_CameraDistanceAdjustSpeed -= dt * mMiniMap_CameraDistanceSlowDownSpeed;
+	mMiniMap_CameraDistanceSlowDownSpeed = 0;
+	mMiniMap_CameraDistanceAdjustSpeed = 0;
+
+	Vector3 cpos = mMainChar->getPosition();
+	mCameraArr[1]->setPosition(cpos + Vector3(0, 1000 + mMiniMap_CameraDistance, 0));
 
 	return true;
-
 }
 
 bool BasicTutorial_00::update_LargeSphere(double dt)
@@ -257,7 +256,7 @@ bool BasicTutorial_00::frameStarted(const Ogre::FrameEvent& evt)
 	bool flg = Ogre::FrameListener::frameStarted(evt);
 	// dt: simulation time step size
 	double dt = evt.timeSinceLastFrame;
-	
+
 	//make sure that dt must not be larger than maxSimulationTimeStepSize.
 	if (dt > mMax_dt)
 		dt = mMax_dt;
@@ -269,9 +268,9 @@ bool BasicTutorial_00::frameStarted(const Ogre::FrameEvent& evt)
 	mMonsterMgr->update(evt);
 	update_MiniMapCamera(dt);
 	update_ParticleSystems(dt);
-	
+
 	update_CharacterInternalState_UI(dt);
-	
+
 	update_CharacterExperience_UI(dt);
 
 	double numHits = mAttackDefenseSystem->update(mHitMonsterPSMgr, dt);
@@ -281,7 +280,7 @@ bool BasicTutorial_00::frameStarted(const Ogre::FrameEvent& evt)
 
 	update_Score_UI(numHits, dt);
 
-	
+
 	mMainChar->addExperience( numHits );
 	update_Character(dt);
 	update_CharacterLevel_UI(dt);

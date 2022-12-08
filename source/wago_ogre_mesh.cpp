@@ -15,8 +15,8 @@ GRAY_SCALE_IMAGE convertImageToGrayScaleImage(const Image& image)
 	std::vector<float> image_array (width*height);
 
 	// compute the number of bytes per pixel (byte per pixel)
-	int bpp = int(image.getSize() / (width*height)); 
-	
+	int bpp = int(image.getSize() / (width*height));
+
 	int offset = 0;
 	if (bpp == 4) {
 		offset = 1;
@@ -27,7 +27,7 @@ GRAY_SCALE_IMAGE convertImageToGrayScaleImage(const Image& image)
 
 
 	const uchar* imageData = image.getData();
-	
+
 	/*
 	//treat the bpp number of bytes as an integer
 	//in conversion.
@@ -36,11 +36,11 @@ GRAY_SCALE_IMAGE convertImageToGrayScaleImage(const Image& image)
 		uint val = 0; // should be at least bpp number of bytes in val
 		memcpy(&val, imageData, bpp);
 		imageData += bpp;
-		
+
 		image_array[i] = float(val) / maxValue;
 	}
 	*/
-	
+
 	for (int i = 0; i < image_array.size(); ++i)
 	{
 		uint tval = 0;
@@ -50,7 +50,7 @@ GRAY_SCALE_IMAGE convertImageToGrayScaleImage(const Image& image)
 			tval += val;
 		}
 		imageData += bpp;
-		
+
 		image_array[i] = float(tval) / maxValue;
 	}
 
@@ -75,7 +75,7 @@ void convertImageToGrayScaleImage(const Image& image, float *image_array)
 
 	//treat the bpp number of bytes as an integer
 	//in conversion.
-	
+
 	for (int i = 0; i < width*height; ++i)
 	{
 		uint val = 0; // should be at least bpp number of bytes in val
@@ -194,7 +194,7 @@ void WAGO_OGRE_MESH_OBJ::addVertex(float x, float y, float z, float txt_x, float
 	mNumVertices++;
 }
 
-void WAGO_OGRE_MESH_OBJ::addFace(unsigned short i0, unsigned short i1, unsigned short i2) 
+void WAGO_OGRE_MESH_OBJ::addFace(unsigned short i0, unsigned short i1, unsigned short i2)
 {
 	mFaceIndices[mNumFaces*3+0] = i0;
 	mFaceIndices[mNumFaces*3+1] = i1;
@@ -261,7 +261,7 @@ void WAGO_OGRE_MESH_OBJ::createMesh(SceneNode *parent)
 
 	int numVertices = mNumVertices;
 
-	
+
 		// static buffer for position and normals
 		posVertexBuffer =
 			HardwareBufferManager::getSingleton().createVertexBuffer(
@@ -279,7 +279,7 @@ void WAGO_OGRE_MESH_OBJ::createMesh(SceneNode *parent)
 			HardwareBuffer::HBU_STATIC_WRITE_ONLY,
 			false); // no shadow buffer
 
-		
+
 		normalVertexBuffer->writeData(0,
 		normalVertexBuffer->getSizeInBytes(), // size
 		_normalBuf, // source
@@ -308,7 +308,7 @@ void WAGO_OGRE_MESH_OBJ::createMesh(SceneNode *parent)
 			indexBuffer->getSizeInBytes(),
 			mFaceIndices,
 			true); // true?
-	
+
 
 	// Initialize vertex data
 	subMesh->vertexData = new VertexData();
@@ -331,9 +331,9 @@ void WAGO_OGRE_MESH_OBJ::createMesh(SceneNode *parent)
 	subMesh->indexData->indexCount = mNumFaces*3;
 
 	// set mesh bounds
-	
+
 	mAABB = computeAABB();
-		
+
 	mMesh->_setBounds(mAABB);
 	mMesh->load();
 	mMesh->touch();
@@ -469,7 +469,7 @@ void WAGO_OGRE_MESH_OBJ::calculateVertexNormal_Terrain(int sx, int sz, size_t nx
 	}
 }
 
-void WAGO_OGRE_MESH_OBJ::animate_Terrain(Real time_step) 
+void WAGO_OGRE_MESH_OBJ::animate_Terrain(Real time_step)
 {
 
 	int nx = 51;
@@ -509,30 +509,30 @@ void WAGO_OGRE_MESH_OBJ::createDftModel_Wall_Horizontal()
 	addVertex(-w, h, d, -w, h, 0, 0, 1);
 	addVertex(-w, -h, d, -w, -h, 0, 0, 1);
 	addVertex(w, -h, d, w, -h, 0, 0, 1);
-	addVertex(w, h, d, w, h, 0, 0, 1);	
+	addVertex(w, h, d, w, h, 0, 0, 1);
 	//
 	addVertex(w, h, d, d, h, 1, 0, 0);
 	addVertex(w, -h, d, d, -h, 1, 0, 0);
 	addVertex(w, -h, -d, -d, -h, 1, 0, 0);
-	addVertex(w, h, -d, -d, h, 1, 0, 0);	
+	addVertex(w, h, -d, -d, h, 1, 0, 0);
 	//
 	addVertex(w, h, -d, w, h, 0, 0, -1);
 	addVertex(w, -h, -d, w, -h, 0, 0, -1);
 	addVertex(-w, -h, -d, -w, -h, 0, 0, -1);
-	addVertex(-w, h, -d, -w, h, 0, 0, -1);	
+	addVertex(-w, h, -d, -w, h, 0, 0, -1);
 	//
 	addVertex(-w, h, -d, -d, h, -1, 0, 0);
 	addVertex(-w, -h, -d, -d, -h, -1, 0, 0);
 	addVertex(-w, -h, d, d, -h, -1, 0, 0);
-	addVertex(-w, h, d, d, h, -1, 0, 0);	
+	addVertex(-w, h, d, d, h, -1, 0, 0);
 	//
 	addVertex(-w, h, -d, -d, -w, 0, 1, 0);
 	addVertex(-w, h, d, d, -w, 0, 1, 0);
 	addVertex(w, h, d, d, w, 0, 1, 0);
-	addVertex(w, h, -d, -d, w, 0, 1, 0);	
+	addVertex(w, h, -d, -d, w, 0, 1, 0);
 	//
 	addVertex(-w, -h, -d, -d, -w, 0, -1, 0);
-	addVertex(w, -h, -d, -d, w, 0, -1, 0);	
+	addVertex(w, -h, -d, -d, w, 0, -1, 0);
 	addVertex(w, -h, d, d, w, 0, -1, 0);
 	addVertex(-w, -h, d, d, -w, 0, -1, 0);
 
@@ -569,30 +569,30 @@ void WAGO_OGRE_MESH_OBJ::createDftModel_Wall_Vertical()
 	addVertex(-w, h, d, -w, h, 0, 0, 1);
 	addVertex(-w, -h, d, -w, -h, 0, 0, 1);
 	addVertex(w, -h, d, w, -h, 0, 0, 1);
-	addVertex(w, h, d, w, h, 0, 0, 1);	
+	addVertex(w, h, d, w, h, 0, 0, 1);
 	//
 	addVertex(w, h, d, d, h, 1, 0, 0);
 	addVertex(w, -h, d, d, -h, 1, 0, 0);
 	addVertex(w, -h, -d, -d, -h, 1, 0, 0);
-	addVertex(w, h, -d, -d, h, 1, 0, 0);	
+	addVertex(w, h, -d, -d, h, 1, 0, 0);
 	//
 	addVertex(w, h, -d, w, h, 0, 0, -1);
 	addVertex(w, -h, -d, w, -h, 0, 0, -1);
 	addVertex(-w, -h, -d, -w, -h, 0, 0, -1);
-	addVertex(-w, h, -d, -w, h, 0, 0, -1);	
+	addVertex(-w, h, -d, -w, h, 0, 0, -1);
 	//
 	addVertex(-w, h, -d, -d, h, -1, 0, 0);
 	addVertex(-w, -h, -d, -d, -h, -1, 0, 0);
 	addVertex(-w, -h, d, d, -h, -1, 0, 0);
-	addVertex(-w, h, d, d, h, -1, 0, 0);	
+	addVertex(-w, h, d, d, h, -1, 0, 0);
 	//
 	addVertex(-w, h, -d, -d, -w, 0, 1, 0);
 	addVertex(-w, h, d, d, -w, 0, 1, 0);
 	addVertex(w, h, d, d, w, 0, 1, 0);
-	addVertex(w, h, -d, -d, w, 0, 1, 0);	
+	addVertex(w, h, -d, -d, w, 0, 1, 0);
 	//
 	addVertex(-w, -h, -d, -d, -w, 0, -1, 0);
-	addVertex(w, -h, -d, -d, w, 0, -1, 0);	
+	addVertex(w, -h, -d, -d, w, 0, -1, 0);
 	addVertex(w, -h, d, d, w, 0, -1, 0);
 	addVertex(-w, -h, d, d, -w, 0, -1, 0);
 
@@ -626,15 +626,15 @@ void WAGO_OGRE_MESH_OBJ::createWallsBasedOnBitmap(
 {
 
 	if (mImage==NULL) mImage = new Image;
-	
+
 	mImage->load(imageName, "General");
-	
+
 	//silly method to creat gray image but it works.
 	GRAY_SCALE_IMAGE c = convertImageToGrayScaleImage(*mImage);
 	mGrayImage.set(c.getImage(), c.getWidth(), c.getHeight());
 	mMapImage.set(c.getImage(), c.getWidth(), c.getHeight());
 	GRAY_SCALE_IMAGE *b = &mGrayImage;
-	
+
 	float dx = 0, dz = 0;
 	mDX = dx = 10;
 	mDZ = dz = 10;
@@ -800,7 +800,7 @@ void WAGO_OGRE_MESH_OBJ::createWallsBasedOnBitmap(
 				}
 			}
 		}
-	} 
+	}
 	// end left wall
 
 
@@ -817,10 +817,16 @@ void WAGO_OGRE_MESH_OBJ::createWallsBasedOnBitmap(
 					if (b->gr(i, j+1, 0.5)) continue;
 					// Add your own stuff
 					//
+					v0 = Vector3(x+dx, 0, z+dz);
+					v3 = Vector3(x+dx, h, z+dz);
+					addVertex(v0.x, v0.y, v0.z, v0.z, 0, 1, 0, 0);
+					addVertex(v1.x, v1.y, v1.z, v1.z, 0, 1, 0, 0);
+					addVertex(v2.x, v2.y, v2.z, v2.z, h, 1, 0, 0);
+					addVertex(v3.x, v3.y, v3.z, v3.z, h, 1, 0, 0);
 
 					//The following two lines are correct.
-					//flg_start = false;
-					//nf++;
+					flg_start = false;
+					nf++;
 				} else {
 					// the following three lines are correct
 					v1 = Vector3(x+dx, 0, z);
@@ -830,22 +836,22 @@ void WAGO_OGRE_MESH_OBJ::createWallsBasedOnBitmap(
 			} else {
 				if (flg_start) {
 					// Add your own stuff
-					//v0 = Vector3(x+dx, 0, z+dz);
-					//v3 = Vector3(x+dx, h, z+dz);
-					//addVertex(v0.x, v0.y, v0.z, v0.z, 0, 1, 0, 0);
-					//addVertex(v1.x, v1.y, v1.z, v1.z, 0, 1, 0, 0);
-					//addVertex(v2.x, v2.y, v2.z, v2.z, h, 1, 0, 0);
-					//addVertex(v3.x, v3.y, v3.z, v3.z, h, 1, 0, 0);
+					v0 = Vector3(x+dx, 0, z+dz);
+					v3 = Vector3(x+dx, h, z+dz);
+					addVertex(v0.x, v0.y, v0.z, v0.z, 0, 1, 0, 0);
+					addVertex(v1.x, v1.y, v1.z, v1.z, 0, 1, 0, 0);
+					addVertex(v2.x, v2.y, v2.z, v2.z, h, 1, 0, 0);
+					addVertex(v3.x, v3.y, v3.z, v3.z, h, 1, 0, 0);
 
 					//The following two lines are correct.
-					//flg_start = false;
-					//nf++;
+					flg_start = false;
+					nf++;
 				}
 			}
 		}
 	}
 	//end right wall********************************************************
-	
+
 	//
 	for (j = 0; j < nz; j++) {
 		z = j*dz;
@@ -954,7 +960,7 @@ SceneNode* WAGO_OGRE_MESH_OBJ::createTerrainFromGrayLevelImage_Portion(SceneNode
 		}
 	}
 	endVertex();
-	
+
 	bgnFace();
 	for (j = 0; j < nz-1; j++) {
 		for (i = 0; i < nx-1; i++) {
@@ -999,11 +1005,11 @@ SceneNode *WAGO_OGRE_MESH_OBJ::createTerrainFromGrayLevelImage(const GRAY_SCALE_
 		for (i = 0; i < nx; i++) {
 			x = i*dx;
 			y = b.at(i, j)*h;
-			mTerrainInfo->setHeightAtVertex(i, j, y);		
+			mTerrainInfo->setHeightAtVertex(i, j, y);
 		}
 	}
 
-	
+
 	int ndx = 32;
 	int ndz = 32;
 
@@ -1026,19 +1032,19 @@ SceneNode *WAGO_OGRE_MESH_OBJ::createTerrainFromGrayLevelImage(const GRAY_SCALE_
 			if (sx + m_ndx > nx) {
 				m_ndx = nx - sx;
 			}
-			
+
 			createTerrainFromGrayLevelImage_Portion(
 				parent_node,
 				sx, sz,
 				m_ndx, m_ndz,
 				dx, dz,
 				size_x, size_z);
-			
+
 			sx += ndx-1;
-			
+
 		}
 		sz += ndz-1;
-		
+
 	}
 
 	return parent_node;
@@ -1114,7 +1120,7 @@ void WAGO_OGRE_MESH_OBJ::create()
 	//serializer.exportMesh(mMesh.getPointer(), "wao_map01.mesh");
 }
 
-void WAGO_OGRE_MESH_OBJ::animate(Real time_step) 
+void WAGO_OGRE_MESH_OBJ::animate(Real time_step)
 {
 	//animate_Terrain(time_step);
 }
@@ -1134,7 +1140,7 @@ WAGO_OGRE_MESH_OBJ::~WAGO_OGRE_MESH_OBJ()
 		mSceneMgr->destroyEntity(mEntity);
 	}
 	mMaterialName.clear();
-} 
+}
 
 //-------------------------------------------------------------
 SIMPLE_TERRAIN::SIMPLE_TERRAIN(SceneManager *m) : WAGO_OGRE_MESH_OBJ(m)
@@ -1164,25 +1170,25 @@ float SIMPLE_TERRAIN::getGridCellValue(float x, float z)
 	int xi = (x - mOriginX)/mDX;
 	int zi = (z - mOriginZ)/mDZ;
 	return mMapImage.atWithBoundCheck(xi, zi);
-	 
+
 }
 
 void SIMPLE_TERRAIN::scanMapForLocatingObjects()
 {
 	int nx = mImage->getWidth();
 	int nz = mImage->getHeight();
-	int bpp = int(mImage->getSize() / (nx*nz)); 
+	int bpp = int(mImage->getSize() / (nx*nz));
 	if (bpp < 3) return;
 	int offset = 0;
 	if (bpp == 4) offset = 1;
 	const uchar* imageData = mImage->getData();
-	
+
 	uint t = 100; //threshold
 	for (int j = 0; j < nz; ++j)
 	{
 		for (int i = 0; i < nx; ++i) {
 			uint index = (i + j*nx)*bpp;
-			
+
 			uint b = imageData[index+0+offset]; //blue color
 			uint g = imageData[index+1+offset]; //green color
 			uint r = imageData[index+2+offset]; //red color
@@ -1203,8 +1209,8 @@ void SIMPLE_TERRAIN::scanMapForLocatingObjects()
 				//red
 				mMonsterLocation.push_back(Vector3(x, 100, z));
 			}
-			
-			if (g > t) { 
+
+			if (g > t) {
 				//green
 				mDestination = Vector3(x, 0, z);
 			}
@@ -1223,7 +1229,7 @@ void SIMPLE_TERRAIN::computeNormalVectors( )
     mNVM_Width = mImage->getWidth();
 	mNVM_Height = mImage->getHeight();
 
-    mNormalVecMap = new Vector3[mNVM_Width*mNVM_Height];             // NVM 
+    mNormalVecMap = new Vector3[mNVM_Width*mNVM_Height];             // NVM
 
     for (int i = 0; i <mNVM_Width*mNVM_Height; ++i )
     {
@@ -1291,7 +1297,7 @@ Vector3 SIMPLE_TERRAIN::getGridNormalVector( float x, float z ) const
 {
     Vector3 n;
     //cout << "mNormalVecMap:" << mNormalVecMap << endl;
- 
+
      //   cout << "mNVM_Width:" <<mNVM_Width << endl;
     //cout << "mNVM_Height:" <<mNVM_Height << endl;
 
@@ -1309,6 +1315,6 @@ Vector3 SIMPLE_TERRAIN::getGridNormalVector( float x, float z ) const
         //
 		n = mNormalVecMap[xi + zi*mNVM_Width];
     //    cout << "normal:" << n.x << "\t" << n.y << "\t" << n.z << endl;
-    
+
         return n;
 }
